@@ -19,15 +19,23 @@ use Illuminate\Support\Facades\Route;
 
 $prefixAdmin = config('zvn.url.prefix_admin');
 Route::group(['prefix' => $prefixAdmin],function(){
-	Route::get('user', function () {
-	    return 'user';
+	// ============================== DASHBOARD =========================
+	$prefix = 'dashboard';
+	$controllerName = 'dashboard';
+	Route::group(['prefix' => $prefix],function() use ($controllerName){
+		$controller = ucfirst($controllerName) . 'Controller@';
+		// echo $controller;
+		Route::get('/', 		    				['as' => $controllerName             , 'uses' => $controller.'index']);
 	});
+	// ============================== SLIDER =========================
 	$prefix = 'slider';
-	Route::group(['prefix' => $prefix],function() use ($prefix){
-		$controller = ucfirst($prefix) . 'Controller@';
-		Route::get('', $controller . 'index');
-		Route::get('edit/{id}', $controller . 'edit');
-		Route::get('delete/{id}', $controller . 'delete');
+	$controllerName = 'slider';
+	Route::group(['prefix' => $prefix],function() use ($controllerName){
+		$controller = ucfirst($controllerName) . 'Controller@';
+		Route::get('/', 		    				['as' => $controllerName             , 'uses' => $controller.'index']);
+		Route::get('/form/{id?}',                   ['as' => $controllerName . '/form'    , 'uses' => $controller.'form']);
+		Route::get('/delete/{id?}',                 ['as' => $controllerName . '/delete'  , 'uses' => $controller.'delete']);
+		Route::get('/change-status-{status}/{id?}', ['as' => $controllerName . '/status'  , 'uses' => $controller.'status']);
 	});
 })
 ?>

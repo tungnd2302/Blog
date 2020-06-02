@@ -16,8 +16,14 @@ class SliderController extends Controller
     // {
     //     return view('user.profile', ['user' => User::findOrFail($id)]);
     // }
+    private $pathViewController = 'admin.slider';
+    private $controllerName     = 'slider123';
+
+    public function __construct(){
+        view()->share('controllerName',$this->controllerName);
+    }
     public function index(){
-        return 'SliderController - Index';
+        return view($this->pathViewController.'.index');
     }
 
      public function edit(){
