@@ -3,27 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Slider as MainModel;
 
 class SliderController extends Controller
 {
-    /**
-     * Show the profile for the given user.
-     *
-     * @param  int  $id
-     * @return View
-     */
-    // public function show($id)
-    // {
-    //     return view('user.profile', ['user' => User::findOrFail($id)]);
-    // }
     private $pathViewController = 'admin.slider';
     private $controllerName     = 'slider123';
+    private $model;
 
     public function __construct(){
+        $this->model = new MainModel();
         view()->share('controllerName',$this->controllerName);
     }
     public function index(){
-        return view($this->pathViewController.'.index');
+        $items = $this->model->getAllItems(null,['task' => 'admin-list-items']);
+        return view($this->pathViewController.'.index',[
+            'items' => $items
+        ]);
     }
 
      public function edit(){
